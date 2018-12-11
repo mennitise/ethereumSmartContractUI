@@ -7,4 +7,4 @@ For this implementation we use:
 	MetaMask					 - https://metamask.io/
 	Remix						 - http://remix.ethereum.org/
 	web3 						 - https://github.com/ethereum/web3.js/
-	Rinkeby Authenticated Faucet - https://faucet.rinkeby.io/
+	Rinkeby Faucet 				 - https://faucet.rinkeby.io/
