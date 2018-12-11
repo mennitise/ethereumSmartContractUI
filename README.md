@@ -4,7 +4,7 @@ Implementation of a WebApp that communicates, via web3, with the Ethereum's Bloc
 
 For this implementation we use:
 
-	MetaMask					 - https://metamask.io/
-	Remix						 - http://remix.ethereum.org/
-	web3 						 - https://github.com/ethereum/web3.js/
+	MetaMask				 - https://metamask.io/
+	Remix					 - http://remix.ethereum.org/
+	web3 					 - https://github.com/ethereum/web3.js/
 	Rinkeby Faucet 				 - https://faucet.rinkeby.io/
