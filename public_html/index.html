@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=”utf-8">
+	<meta name=”viewport” content=”width=device-width, initial-scale=1.0">
+	<title>Blockchain Ethereum</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>
+	<script src=”./node_modules/web3/dist/web3.min.js”></script>
+</head>
+
+<body>
+	<div class="jumbotron text-center">
+		<h1>Blockchain</h1>
+		<h3>Comunication with Ethereum's Blockchain</h3>
+		<br>
+		<h3>Developers</h3>
+		<h5>Heanna, Kaoru</h5>
+		<h5>Menniti, Sebastian Ezequiel</h5>
+	</div>
+
+	<div class="container" style="text-align: center">
+		<div>
+			<div class="col-sm-6">
+				<h5 style="text-align: center">Last modifier</h3>
+				<h2 id="name" style="text-align: center"></p>
+			</div>
+			<div class="col-sm-6">
+				<h5 style="text-align: center">Times modified</h3>
+				<h2 id="times" style="text-align: center"></p>
+			</div>
+			<br />
+		</div>
+		<div style="text-align: center">
+			<button id="receipts-button">Update from the blockchain</button>
+		</div>
+		<br>
+		<br>
+		<div>
+			<div class="col-sm-6">
+				Modifier:
+				<input type="string" name="modifier">
+			</div>
+			<div class="col-sm-6">
+				<button id="send-button">Send to the blockchain</button>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		//var myContractAddress = "0x8e119b2bec7a9821f68c322ec0c2a1d4af271bcd";
+		//var myContractAddress = "0xe58E74EA2eB25c40D915d495Fd949ffc4D69Aaf3";
+		//var myContractAddress = "0xc5838510677775553ef0d75d31af6531d7c798ca";
+		var myContractAddress = "0xcc4b6a286d820840ca7db90bde0650fb5815fcd7";
+
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+		} else {
+			// set the provider you want from Web3.providers
+			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+		}
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+
+		var CounterContract = web3.eth.contract([
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getLastCall",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					},
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "_fName",
+						"type": "string"
+					}
+				],
+				"name": "setLastCall",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		]);
+		
+		var Counter = CounterContract.at(myContractAddress);
+
+		Counter.getLastCall(function(error, result){
+			if(!error){
+				$("#name").html(result[0]);
+
+				$("#times").html(result[1].c[0]);
+				console.log(result);
+			}
+			else{
+				console.error(error);
+			}
+		});
+
+		$('#receipts-button').click(function() {
+			Counter.getLastCall(function(error, result){
+				if(!error){
+					$("#name").html(result[0]);
+
+					$("#times").html(result[1].c[0]);
+					console.log(result);
+				}
+				else{
+					console.error(error);
+				}
+			});
+		});
+
+		$("#send-button").click(function() {
+			if($("input[name=modifier]").val() != ""){
+				Counter.setLastCall($("input[name=modifier]").val(), function(error, result){
+					if(!error){
+						console.log(result);
+					}
+					else{
+						console.error(error);
+					}
+				});
+			}
+		});
+
+	</script>
+</body>
+</html>
